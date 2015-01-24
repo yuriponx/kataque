@@ -4,47 +4,99 @@
 <title>WebSocket Sample</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+function parce(message){
+	//var fixedResponse = response.responseText.replace(/\\'/g, "'");
+	var jsonObj = JSON.parse(message);
+	console.log(jsonObj);
+	console.log(jsonObj[0]);
+	console.log(jsonObj[1]);
+}
+
 $(function(){
-    // WebSocket作成
-    //var ws = new WebSocket("ws://localhost:8080");
-    var ws = new WebSocket("ws://192.168.10.16:8000/ws");
+	// WebSocket作成
+	//var ws = new WebSocket("ws://localhost:8080");//個人ローカルdebug用
+	//var ws = new WebSocket("ws://192.168.10.16:8000/ws_debug");//グローバルdebug用
+	var ws = new WebSocket("ws://192.168.1.43:8000/ws");
  
-    // WebSocket open時のイベントハンドラ登録
-    ws.onopen = function(){
-        $("#log").prepend("&lt;onopen&gt; " + "<br/>");
-    }
+	// WebSocket open時のイベントハンドラ登録
+	ws.onopen = function(){
+		$("#log").prepend("&lt;onopen&gt; " + "<br/>");
+	}
  
-    // WebSocket message受信時のイベントハンドラ登録
-    ws.onmessage = function(message){
-        $("#log").prepend(message.data + "<br/>");
-    }
+	// WebSocket message受信時のイベントハンドラ登録
+	ws.onmessage = function(message){
+		$("#log").prepend(message.data + "<br/>");
+		parce(message.data);
+	}
  
-    // WebSocket error時のイベントハンドラ登録
-    ws.onerror = function(){
-        $("#log").prepend("&lt;onerror&gt; " + "<br/>");
-    }
+	// WebSocket error時のイベントハンドラ登録
+	ws.onerror = function(){
+		$("#log").prepend("&lt;onerror&gt; " + "<br/>");
+	}
  
-    // WebSocket close時のイベントハンドラ登録
-    ws.onclose = function(){
-        $("#log").prepend("&lt;onclose&gt; " + "<br/>");
-    }
+	// WebSocket close時のイベントハンドラ登録
+	ws.onclose = function(){
+		$("#log").prepend("&lt;onclose&gt; " + "<br/>");
+	}
  
-    // Windowが閉じられた(例：ブラウザを閉じた)時のイベントを設定
-    $(window).unload(function() {
-        ws.onclose(); // WebSocket close
-    })
+	// Windowが閉じられた(例：ブラウザを閉じた)時のイベントを設定
+	$(window).unload(function() {
+		ws.onclose(); // WebSocket close
+	})
  
-    // キー入力時のイベントを設定
-    $("#message").keyup(function(e){
-        ws.send($("#message").val()); // WebSocketを使いサーバにメッセージを送信
-    });
- 
+	// キー入力時のイベントを設定
+	$("#message").keyup(function(e){
+		ws.send($("#message").val()); // WebSocketを使いサーバにメッセージを送信
+	}); 
 })
+
+var ctx;
+
+window.onload = function draw() { 
+		var canvas = document.getElementById('canvas');
+		if (canvas.getContext){
+		  ctx = canvas.getContext('2d');
+		  var img = new Image();
+		  img.src = "img/room.jpg";
+		  ctx.drawImage(img, 0, 0);
+		  var monster_img = new Image();
+		  monster_img.src = "img/carbuncle.png";
+		  ctx.drawImage(monster_img, 120, 140);
+
+		//ctx.fillStyle = "rgb(255,0,0)";
+		//ctx.fillRect(0,0,20,20);
+		//ctx.beginPath();
+		//ctx.strokeStyle = "rgb(0,255,255)";
+		//ctx.lineWidth = 4;
+		//ctx.rect(100,100,50,50);
+		//ctx.stroke();
+		//timerID = setInterval ('draw()', 100000);
+		}
+};
+
+x_zahyo = 100;
+y_zahyo = 100;
+// 開始モジュール
+/*
+function start() {
+	canvas = document.getElementById ('canvas');
+	ctx = canvas.getContext ('2d');   // キャンバスからコンテキストを取得
+	img = new Image();
+	img.src = "neko02.gif";
+	timerID = setInterval ('draw()', 33);
+}
+*/
+// 描画モジュール
+function draw() {
+	ctx.clearRect (0 , 0 , 600 , 400);//画面をいったん消して表示する
+	ctx.drawImage (img , x_zahyo , y_zahyo);
+	x_zahyo += 5;//x座標を変える
+}
 </script>
 </head>
 <body><input type="text" id="message" />
 <div id="log" />
-<img src="img/room.jpg" alt="room" title="room">
+<canvas id="canvas" width="400" height="300"></canvas>
 
 </body>
 </html>
