@@ -49,11 +49,15 @@ var monster_img;
 x_zahyo = 120;
 y_zahyo = 60;
 var animation_flag=0;
+var pi = Math.PI;
+var message;
+
 
 function parce(message){
 	var jsonObj = JSON.parse(message);
 	//console.log(jsonObj.count);
 	update_window(parseInt(jsonObj.count));
+	animation(jsonObj.text);
 }
 
 function draw() { 
@@ -66,16 +70,21 @@ function draw() {
 		  monster_img = new Image();
 		  monster_img.src = "img/carbuncle.png";
 		  ctx.drawImage(monster_img, 120, 60);
-		  timerID = setInterval ('animation()', 1000);
+		  //timerID = setInterval ('animation()', 1000);
 		}
 };
 
-function animation() {
+function animation(text) {
 	ctx.clearRect (0 , 0 , 600 , 400);
 	ctx.drawImage(img, 0, 0);
 	ctx.drawImage (monster_img , x_zahyo , y_zahyo);
 	ctx.fillStyle = "rgb(0, 0, 0)";
-	ctx.fillRect(30, 220, 340, 70);
+	//ctx.fillRect(30, 220, 340, 70);
+	var v = 10;
+	fillRoundRect(20 + v, 210 + v, 360 - v * 2, 90 - v * 2, (40 - v)  / 2);
+	ctx.fillRect(180, 180, 50, 50);
+	ctx.fillStyle = "rgb(255, 255, 255)";
+	ctx.fillText(text, 40, 240);
 	if(animation_flag==0){
 		x_zahyo += 8;
 		y_zahyo += 8;
@@ -85,6 +94,17 @@ function animation() {
 		y_zahyo -= 8;
 		animation_flag= 0;
 	}
+}
+
+var fillRoundRect = function (l, t, w, h, r)
+    {
+        ctx.beginPath();
+        ctx.arc(l + r, t + r, r, - pi, - 0.5 * pi, false);
+        ctx.arc(l + w - r, t + r, r, - 0.5 * pi, 0, false);
+        ctx.arc(l + w - r, t + h - r, r, 0, 0.5 * pi, false);
+        ctx.arc(l + r, t + h - r, r, 0.5 * pi, pi, false);
+        ctx.closePath();
+        ctx.fill();
 }
 
 function update_window(num){
