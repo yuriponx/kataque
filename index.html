@@ -7,10 +7,11 @@
 $(function(){
 	// WebSocket作成
 	//var ws = new WebSocket("ws://localhost:8080");//個人ローカルdebug用
-	var ws = new WebSocket("ws://128.199.104.26:8000/ws_debug");//グローバルdebug用
+	//var ws = new WebSocket("ws://192.168.10.16:8000/ws_debug");//グローバルdebug用
 	//var ws = new WebSocket("ws://128.199.104.26:8000/ws");
+	var ws = new WebSocket("ws://192.168.10.16:8000/ws");//グローバルdebug用
 	draw();
- 
+	music_init();
 	// WebSocket open時のイベントハンドラ
 	ws.onopen = function(){
 		$("#log").prepend("&lt;onopen&gt; " + "<br/>");
@@ -110,38 +111,55 @@ var fillRoundRect = function (l, t, w, h, r)
 function update_window(num){
 	switch (num){
 		case 0:
-			console.log("まだダメージを受けていないようだ");
+			audio1.play();
 			break;
 		case 5:
-			console.log("5のダメージを受けた！");
+			audio2.play();
 			img.src = "img/room5.jpg";
 			break;
 		case 10:
-			console.log("10のダメージを受けた。痛がっているぞ");
+			audio3.play();
 			img.src = "img/room10.jpg";
 			break;
 		case 15:
-			console.log("15のダメージを受けた。どうやらだいぶ痛がっているみたいだ");
+			audio4.play();
 			img.src = "img/room15.jpg";
 			break;
 		case 20:
-			console.log("20のダメージを受けた。倒した！");
+			audio5.play();
 			break;
 		default:
 			console.log("通信エラー");
 			break;
 	}
 }
-/*
-function update_monster(){
-	monster_img.src = "img/carbuncle.png";
+
+function effect(){
+
 }
-*/
+
+
+var audio1;
+var audio2;
+var audio3;
+var audio4;
+var audio5;
+
+function music_init(){
+audio1 = new Audio("se/001.wav");
+audio2 = new Audio("se/002.wav");
+audio3 = new Audio("se/003.wav");
+audio4 = new Audio("se/004.wav");
+audio5 = new Audio("se/005.wav");
+}
+
+
 </script>
 </head>
-<body><input type="text" id="message" />
-<div id="log" />
+<body>
 <canvas id="canvas" width="400" height="300"></canvas>
-
+音楽：魔王魂
+<div id="log" />
+<input type="text" id="message" />
 </body>
 </html>
