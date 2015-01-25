@@ -7,8 +7,8 @@
 $(function(){
 	// WebSocket作成
 	//var ws = new WebSocket("ws://localhost:8080");//個人ローカルdebug用
-	//var ws = new WebSocket("ws://192.168.10.16:8000/ws_debug");//グローバルdebug用
-	var ws = new WebSocket("ws://128.199.104.26:8000/ws");
+	var ws = new WebSocket("ws://128.199.104.26:8000/ws_debug");//グローバルdebug用
+	//var ws = new WebSocket("ws://128.199.104.26:8000/ws");
 	//var ws = new WebSocket("ws://192.168.10.16:8000/ws");//グローバルdebug用
 	draw();
 	music_init();
@@ -71,7 +71,7 @@ function draw() {
 		  monster_img = new Image();
 		  monster_img.src = "img/carbuncle.png";
 		  ctx.drawImage(monster_img, 120, 60);
-		  //timerID = setInterval ('animation()', 1000);
+		  //timerID = setInterval ('floating()', 100);
 		}
 };
 
@@ -83,9 +83,13 @@ function animation(text) {
 	//ctx.fillRect(30, 220, 340, 70);
 	var v = 10;
 	fillRoundRect(20 + v, 210 + v, 360 - v * 2, 90 - v * 2, (40 - v)  / 2);
-	ctx.fillRect(180, 180, 50, 50);
+	//ctx.fillRect(180, 180, 50, 50);
 	ctx.fillStyle = "rgb(255, 255, 255)";
-	ctx.fillText(text, 40, 240);
+	ctx.fillText(text, 40, 260);
+	ctx.font = "28px 'ＭＳ Ｐゴシック'";
+}
+
+function floating(){
 	if(animation_flag==0){
 		x_zahyo += 8;
 		y_zahyo += 8;
@@ -96,6 +100,7 @@ function animation(text) {
 		animation_flag= 0;
 	}
 }
+
 
 var fillRoundRect = function (l, t, w, h, r)
     {
